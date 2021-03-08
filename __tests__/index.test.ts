@@ -1,10 +1,10 @@
 import * as path from 'path'
-const XLSX = require('xlsx');
+const XLSX = require('xlsx')
 
 it('add more test', () => {
-  const workbook = XLSX.readFile(path.join(__dirname, 'test.xls'));
-
-  const regex = /-?\d+/gm;
+  const workbook = XLSX.readFile(path.join(__dirname, 'test.xls'))
+  const first_sheet_name = workbook.SheetNames[0]
+  const worksheet = workbook.Sheets[first_sheet_name]
 
   function in_range(v: number, min: number, max: number, result: any[]) {
     if (v >= min && v <= max) {
@@ -15,9 +15,9 @@ it('add more test', () => {
   }
 
   for (let i = 2; i < 65536; i++) {
-    const worksheet = workbook.Sheets.testlist
     let b = worksheet[`B${i}`]
     if (b === undefined) {
+      console.log(`no data at ${i}`)
       break
     }
     let d = worksheet[`D${i}`]
@@ -34,34 +34,36 @@ it('add more test', () => {
     }
 
     if (conditions.length == 6) {
-      for (let j = 0; j < 6 ; j=j+2) {
+      for (let j = 0; j < 6; j = j + 2) {
         const min = parseFloat(conditions[j])
-        const max = parseFloat(conditions[j+1])
+        const max = parseFloat(conditions[j + 1])
         const v = parseFloat(log[j])
         in_range(v, min, max, result)
       }
     }
 
-    XLSX.utils.sheet_add_aoa(worksheet, [[result.join(',')]], {origin: `C${i}`});
+    XLSX.utils.sheet_add_aoa(worksheet, [[result.join(',')]], {
+      origin: `C${i}`,
+    })
     console.log(result)
   }
 
-  XLSX.writeFile(workbook, path.join(__dirname, 'result.xlsx'));
+  XLSX.writeFile(workbook, path.join(__dirname, 'result.xlsx'))
 })
 
 // https://regex101.com/r/6j4I19/1
-const regex = /([+-]?\d)+(\.\d+)?/gm;
+const regex = /([+-]?\d)+(\.\d+)?/gm
 
-it('split number', ()=> {
-  const str = `-100~300`;
+it('split number', () => {
+  const str = `-100~300`
   const r = str.match(regex)
   expect(r).toMatchSnapshot()
 })
 
-it('split complex number', ()=> {
+it('split complex number', () => {
   const str = `voltage: 0 mV
 current: 0 mA
-temperature: -273.15 C`;
+temperature: -273.15 C`
   const complex_result = str.match(regex)
   expect(complex_result).toMatchSnapshot()
 })

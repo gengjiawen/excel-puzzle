@@ -11,7 +11,7 @@
     "start": "tsc -w",
     "server": "ts-node-dev --respawn libs/index.ts",
     "clean": "rimraf build",
-    "format": "prettier --write \"{examples,libs,script,test,bin}/**/*.{js,ts}\" \"*.yml\"",
+    "format": "prettier --write \"{examples,libs,script,__tests__,bin}/**/*.{js,ts}\" \"*.yml\"",
     "format:check": "prettier --list-different \"{examples,libs,script,test,bin}/**/*.{js,ts}\" \"*.yml\"",
     "test": "jest",
     "build": "npm run clean && tsc -p ./tsconfig.json"
