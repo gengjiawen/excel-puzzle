@@ -1,5 +1,5 @@
 import * as path from 'path'
-const XLSX = require('xlsx')
+import * as XLSX from 'xlsx'
 
 it('add more test', () => {
   const workbook = XLSX.readFile(path.join(__dirname, 'test.xls'))
